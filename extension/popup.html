@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EngagED Thread Builder</title>
+  <style>
+    :root{--bg:#0b0b0b;--surface:rgba(255,255,255,0.04);--accent1:#da0061;--accent2:#0090ff;--text:#fff}
+    html,body{margin:0;padding:12px;width:420px;background:linear-gradient(180deg,#070707,#0f0f10);font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text)}
+    .panel{background:var(--surface);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06)}
+    label{display:block;font-weight:700;margin-top:8px;font-size:12px}
+    input,textarea,select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text);margin-top:6px}
+    textarea{min-height:84px}
+    .row{display:flex;gap:8px}
+    .btn{display:inline-block;padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+    .btn.primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff}
+    .preview{white-space:pre-wrap;background:rgba(0,0,0,0.2);padding:10px;border-radius:8px;margin-top:8px;font-family:monospace;font-size:12px}
+    .muted{font-size:12px;color:rgba(255,255,255,0.65)}
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <label for="raw">Cole a thread ou texto</label>
+    <textarea id="raw" placeholder="Cole aqui a conversa ou use 'Buscar contexto' para importar dados da página."></textarea>
+
+    <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+      <button id="importBtn" class="btn">Buscar contexto</button>
+      <button id="parseBtn" class="btn">Extrair</button>
+      <button id="copyBtn" class="btn primary">Copiar</button>
+    </div>
+
+    <label for="mentions">Menções (Slack)</label>
+    <input id="mentions" placeholder="@vinimendes @gabrielribeiro" />
+
+    <label for="title">Título</label>
+    <input id="title" placeholder="Título descritivo" />
+
+    <label class="muted">Preview</label>
+    <div id="preview" class="preview"></div>
+  </div>
+
+  <script src="threadFormatter.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
