@@ -16,8 +16,12 @@
     if(titleMatch) out.threadTitle = titleMatch[1].trim();
     const orgMatch = text.match(/OrgID[:\s]+([a-z0-9\-]+)/i);
     if(orgMatch) out.orgId = orgMatch[1].trim();
+    const companyMatch = text.match(/Empresa(?: responsável)?[:\s]+(.+?)(?:\s*Link:|\s*\||$)/i);
+    if(companyMatch) out.company = companyMatch[1].trim();
     const urlMatch = text.match(/https?:\/\/[^\s)]+/i);
     if(urlMatch) out.pageUrl = urlMatch[0].trim();
+    const pathMatch = text.match(/Caminho[:\s]+([^\n\r]+)/i);
+    if(pathMatch) out.errorPath = pathMatch[1].trim();
     const humanMatch = text.match(/Texto humanizado:\s*([\s\S]*?)(?:\n\s*Agradecimentos finais:|\n\s*Arquivos de logs:|$)/i);
     if(humanMatch) out.humanText = humanMatch[1].trim();
     const logsIndex = lines.findIndex(l=>/Arquivos de logs/i.test(l));
@@ -36,11 +40,13 @@
     const orgId = state.orgId || '';
     const company = state.company || '';
     const pageUrl = state.pageUrl || '';
+    const errorPath = state.errorPath || '';
     const mentions = state.mentions || '';
     const humanText = state.humanText || '';
     const gratitude = state.gratitude || '';
     const pageTitle = state.pageTitle || '';
     const logs = formatLogs(state.logs || '');
+    const custom = state.customFields || [];
 
     const parts = [];
     let head = `[THREAD] ${title}`;
@@ -59,6 +65,17 @@
     parts.push('');
     parts.push('Arquivos de logs:');
     if(logs) parts.push(logs);
+    if(errorPath) {
+      parts.push('');
+      parts.push(`Caminho do erro: ${errorPath}`);
+    }
+    if(custom && custom.length){
+      parts.push('');
+      parts.push('Campos adicionais:');
+      custom.forEach(c => {
+        parts.push(`- ${c.key}: ${c.value}`);
+      });
+    }
     return parts.join('\n').replace(/\n{3,}/g,'\n\n').trim();
   }
 

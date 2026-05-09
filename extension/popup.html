@@ -6,15 +6,16 @@
   <title>EngagED Thread Builder</title>
   <style>
     :root{--bg:#0b0b0b;--surface:rgba(255,255,255,0.04);--accent1:#da0061;--accent2:#0090ff;--text:#fff}
-    html,body{margin:0;padding:12px;width:420px;background:linear-gradient(180deg,#070707,#0f0f10);font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text)}
-    .panel{background:var(--surface);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06)}
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:12px;max-width:420px;background:linear-gradient(180deg,#070707,#0f0f10);font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text);overflow-x:hidden}
+    .panel{background:var(--surface);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);max-width:100%}
     label{display:block;font-weight:700;margin-top:8px;font-size:12px}
-    input,textarea,select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text);margin-top:6px}
+    input,textarea,select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text);margin-top:6px;word-break:break-word}
     textarea{min-height:84px}
     .row{display:flex;gap:8px}
     .btn{display:inline-block;padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
     .btn.primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff}
-    .preview{white-space:pre-wrap;background:rgba(0,0,0,0.2);padding:10px;border-radius:8px;margin-top:8px;font-family:monospace;font-size:12px}
+    .preview{white-space:pre-wrap;background:rgba(0,0,0,0.2);padding:10px;border-radius:8px;margin-top:8px;font-family:monospace;font-size:12px;max-height:260px;overflow:auto}
     .muted{font-size:12px;color:rgba(255,255,255,0.65)}
   </style>
 </head>
@@ -27,10 +28,36 @@
       <button id="importBtn" class="btn">Buscar contexto</button>
       <button id="parseBtn" class="btn">Extrair</button>
       <button id="copyBtn" class="btn primary">Copiar</button>
+      <button id="exportBtn" class="btn">Baixar .md</button>
     </div>
 
     <label for="mentions">Menções (Slack)</label>
-    <input id="mentions" placeholder="@vinimendes @gabrielribeiro" />
+    <input id="mentions" placeholder="@vinimendes @gabrielribeiro" autocomplete="off" />
+    <div id="mentionsDropdown" style="position:relative"></div>
+
+    <div class="row" style="margin-top:8px">
+      <div style="flex:1">
+        <label for="orgId">OrgID</label>
+        <input id="orgId" placeholder="952e030e226a5001c90ca6b" />
+      </div>
+      <div style="flex:1">
+        <label for="company">Cliente</label>
+        <input id="company" placeholder="Empresa Exemplo" />
+      </div>
+    </div>
+
+    <label for="pageUrl">Página (URL)</label>
+    <input id="pageUrl" placeholder="https://admin.online.engaged.com.br/..." />
+    <div id="urlHint" class="muted" style="margin-top:6px"></div>
+
+    <label for="errorPath">Caminho do erro</label>
+    <input id="errorPath" placeholder="/admin/org/.../payments/..." />
+
+    <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+      <button id="addFieldBtn" class="btn">Adicionar campo</button>
+    </div>
+
+    <div id="customFields" style="margin-top:8px"></div>
 
     <label for="title">Título</label>
     <input id="title" placeholder="Título descritivo" />
